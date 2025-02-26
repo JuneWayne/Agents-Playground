@@ -38,7 +38,7 @@ RAG stands for Retrieval Augmented Generation, think of it like giving your chat
   - Depends on how well **chunk size** and **chunk overlap** is tweaked
   - could be slower (depending on condition)
 
-<font color="blue">**Map reduce**:</font> summarizing each document individually (map step) and combining summaries into a final summary (reduce step). Dividing documents into chunks, generating summaries for each chunk, combining summaries to create a final summary.
+<code style="color : blue">**Map reduce**:</code> summarizing each document individually (map step) and combining summaries into a final summary (reduce step). Dividing documents into chunks, generating summaries for each chunk, combining summaries to create a final summary.
 - Pros 👍：
   - effectively handles large documents by dividing texts into manageble chunks
   - reduces processing time by processing chunks individually
