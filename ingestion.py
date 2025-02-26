@@ -7,13 +7,21 @@ from langchain_pinecone import PineconeVectorStore
 
 load_dotenv()
 
-loader = PyPDFLoader('Jonathan_Pau_Interview_Notes_Detailed.pdf')
-document = loader.load()
+pdf_files = [
+    'Bliss_Lee_Interview_Notes_Cleaned.pdf',
+    'Mark_Yeh_Interview_Notes_Clean.pdf',
+    'Jonathan_Pau_Interview_Notes_Detailed.pdf',
+    'Updated_Meeting_Notes.pdf',
+]
 
-text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
-texts = text_splitter.split_documents(document)
-print(f'created {len(texts)} chunks')
+embeddings = OpenAIEmbeddings(openai_api_key=os.environ.get("OPENAI_API_KEY"))
 
-embeddings = OpenAIEmbeddings(openai_api_type=os.environ.get("OPENAI_API_KEY"))
-PineconeVectorStore.from_documents(texts, embeddings, index_name=os.environ.get("INDEX_NAME"))
+for pdf_file in pdf_files:
+    print(f"--- Processing {pdf_file} ---")
+    loader = PyPDFLoader(pdf_file)
+    docs = loader.load()  
 
+    text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
+    chunks = text_splitter.split_documents(docs)
+    print(f"{pdf_file} => Created {len(chunks)} chunks")
+    PineconeVectorStore.from_documents(chunks, embeddings, index_name=os.environ.get("INDEX_NAME"))

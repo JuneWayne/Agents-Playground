@@ -31,7 +31,7 @@ def main():
         embedding=embeddings
     )
 
-    chat = ChatOpenAI(verbose=True, temperature=0, model_name="gpt-3.5-turbo")
+    chat = ChatOpenAI(verbose=True, temperature=0, model_name="gpt-4o")
 
     qa = ConversationalRetrievalChain.from_llm(
         llm=chat,
