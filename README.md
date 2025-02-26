@@ -5,9 +5,9 @@
 ---
 
 ## 🚀 **Description**  
-### Utilizing existing LLMs and independent Vector Databases to produce accurate, contextual, and reliable responses. 
+Utilizing existing LLMs and independent Vector Databases to produce accurate, contextual, and reliable responses. 
 
-### RAG stands for Retrieval Augmented Generation, think of it like giving your chatbot a brain full of searchable knowledge. Imagine a chatbot that could tap into a vast library of information and generate creative text. That’s the magic of RAG. -- Quote from Medium   
+RAG stands for Retrieval Augmented Generation, think of it like giving your chatbot a brain full of searchable knowledge. Imagine a chatbot that could tap into a vast library of information and generate creative text. That’s the magic of RAG. -- Quote from Medium   
 
 ---
 
