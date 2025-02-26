@@ -4,14 +4,14 @@
 
 ---
 
-## 🚀 **Description**  
+## 🚀 **Description of RAG Based Chatbots**  
 Utilizing existing LLMs and independent Vector Databases to produce accurate, contextual, and reliable responses. 
 
 RAG stands for Retrieval Augmented Generation, think of it like giving your chatbot a brain full of searchable knowledge. Imagine a chatbot that could tap into a vast library of information and generate creative text. That’s the magic of RAG. -- Quote from Medium   
 
 ---
 
-## 🛠 **Features**  
+## 🛠 **Features of this Chatbot system**  
 - ✅ Feature 1: Accurate responses, tailored to user needs  
 - ✅ Feature 2: Context based conversation, does not perform third party web searches or deviates from given topic
 - ✅ Feature 3: Does not hallucinate nor produce unreliable answers (to an extent)
@@ -23,7 +23,7 @@ RAG stands for Retrieval Augmented Generation, think of it like giving your chat
 
 ---
 
-## **Demo picture**
+## **Demo picture: Terminal based interface**
 ![RAG_in_action](Data_file/Demo.png) 
 
 ---
