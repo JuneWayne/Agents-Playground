@@ -5,9 +5,9 @@
 ---
 
 ## 🚀 **Description**  
-Utilizing existing LLMs and combined with independent Vector Databases to produce accurate, live, and reliable responses. 
+### Utilizing existing LLMs and independent Vector Databases to produce accurate, contextual, and reliable responses. 
 
-RAG stands for Retrieval Augmented Generation, think of it like giving your chatbot a brain full of searchable knowledge. Imagine a chatbot that could tap into a vast library of information and generate creative text. That’s the magic of RAG. -- Quote from Medium   
+### RAG stands for Retrieval Augmented Generation, think of it like giving your chatbot a brain full of searchable knowledge. Imagine a chatbot that could tap into a vast library of information and generate creative text. That’s the magic of RAG. -- Quote from Medium   
 
 ---
 
@@ -15,9 +15,9 @@ RAG stands for Retrieval Augmented Generation, think of it like giving your chat
 - ✅ Feature 1: Accurate responses, tailored to user needs  
 - ✅ Feature 2: Context based conversation, does not perform third party web searches or deviates from given topic
 - ✅ Feature 3: Does not hallucinate nor produce unreliable answers (to an extent)
-- 🛠️ Parameter 1: Temperature (creative or strictly contextual) of the LLM
-- 🛠️ Parameter 2: LLM Model
-- 🛠️ Parameter 3: Retrieval method - stuff, map_reduce, refine, map_rerank
+- 🛠️ Parameter 1: Temperature (the extent of LLM creativity) of the LLM
+- 🛠️ Parameter 2: choice of LLM (OpenAI, Ollama, DeepSeek, etc)
+- 🛠️ Parameter 3: choice of Retrieval method - stuff, map_reduce, refine, map_rerank
 - 🛠️ Parameter 4: Chunk size - how long each text chunk should be
 - 🛠️ Parameter 5: Chunk overlap - how much each text chunk should overlap against each other
 
