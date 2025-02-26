@@ -30,7 +30,7 @@ RAG stands for Retrieval Augmented Generation, think of it like giving your chat
 
 ## **Chaining Methods Explained**
 
-**Stuff Chain**: convert documents into smaller chunks, processing each chunk individually, combining summaries to generate a final summary. (method used by this particular project)
+<code style="color : blue">**Stuff Chain**</code>: convert documents into smaller chunks, processing each chunk individually, combining summaries to generate a final summary. (method used by this particular project)
 - Pros 👍：
   - efficiently handles large documents
   - chunk-wise summarization
@@ -46,7 +46,7 @@ RAG stands for Retrieval Augmented Generation, think of it like giving your chat
 - Cons 👎：
   - requires extra step in combining individual summaries, could render response generation time slower
     
- **Refine**: iteratively updates its answer by looping over the input documents, for each document, it passes non-document inputs, the current document, and the latest intermediate answer to the LLM chain to retrieve a new answer. Alternative to **Map Reduce**, involves generating the summary of the first chunk, combining it with the second, generates another summary, and continue the process until a final summary is achieved.
+ <code style="color : blue">**Refine**</code>: iteratively updates its answer by looping over the input documents, for each document, it passes non-document inputs, the current document, and the latest intermediate answer to the LLM chain to retrieve a new answer. Alternative to **Map Reduce**, involves generating the summary of the first chunk, combining it with the second, generates another summary, and continue the process until a final summary is achieved.
 - Pros 👍：
   - simpler than **Map reduce** method
   - achieves similar results with large documents with less compmlexity
@@ -55,7 +55,7 @@ RAG stands for Retrieval Augmented Generation, think of it like giving your chat
   - limited functionality compared to other techniques
   - could be slower than other techniques
     
-**Map-Rerank**: divides texts into batches, submits each one to the LLM, returns a score indicating how comprehensively it answers the question, determines final answer based on highest scoring replies from each batch.
+<code style="color : blue">**Map-Rerank**</code>: divides texts into batches, submits each one to the LLM, returns a score indicating how comprehensively it answers the question, determines final answer based on highest scoring replies from each batch.
 - Pros 👍：
   - self-optimization in terms of the quality of response produced
   - automating the optimization process of LLM response generation quality
