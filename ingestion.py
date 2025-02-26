@@ -8,10 +8,10 @@ from langchain_pinecone import PineconeVectorStore
 load_dotenv()
 
 pdf_files = [
-    'Bliss_Lee_Interview_Notes_Cleaned.pdf',
-    'Mark_Yeh_Interview_Notes_Clean.pdf',
-    'Jonathan_Pau_Interview_Notes_Detailed.pdf',
-    'Updated_Meeting_Notes.pdf',
+    'Data_file/Bliss_Lee_Interview_Notes_Cleaned.pdf',
+    'Data_file/Mark_Yeh_Interview_Notes_Clean.pdf',
+    'Data_file/Jonathan_Pau_Interview_Notes_Detailed.pdf',
+    'Data_file/Updated_Meeting_Notes.pdf',
 ]
 
 embeddings = OpenAIEmbeddings(openai_api_key=os.environ.get("OPENAI_API_KEY"))
