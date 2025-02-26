@@ -1,6 +1,6 @@
 # 🤖 **RAG-Based Chatbot Demo (In Terminal)**
 
-[![RAG_Explained](Data_file/RAG%20visualization.png)] 
+![RAG_Explained](Data_file/RAG%20visualization.png)
 
 ---
 
@@ -22,4 +22,4 @@ RAG stands for Retrieval Augmented Generation, think of it like giving your chat
 - 🛠️ Parameter 5: Chunk overlap - how much each text chunk should overlap against each other
 
 ## **Demo picture**
-[![RAG_in_action](Data_file/Demo.png)] 
+![RAG_in_action](Data_file/Demo.png) 
