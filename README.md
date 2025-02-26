@@ -66,7 +66,5 @@ RAG stands for Retrieval Augmented Generation, think of it like giving your chat
 - Cons 👎：
   - could take up more time/slower response due to the need for scoring and comparison
 
-![GameChangingForMeKendallGrayGIF (2)](https://github.com/user-attachments/assets/c4eb8922-fb0b-41fe-8ba6-0392f7d50c9c)
-
 
   
