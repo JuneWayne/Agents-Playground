@@ -9,6 +9,9 @@ Utilizing existing LLMs and independent Vector Databases to produce accurate, co
 
 RAG stands for Retrieval Augmented Generation, think of it like giving your chatbot a brain full of searchable knowledge. Imagine a chatbot that could tap into a vast library of information and generate creative text. That’s the magic of RAG. -- Quote from Medium   
 
+![KnifeGIF](https://github.com/user-attachments/assets/48d582c6-d446-4121-b8ac-228c4f0c8a0a)
+
+
 ---
 
 ## 🛠 **Features of this Chatbot system**  
@@ -23,12 +26,12 @@ RAG stands for Retrieval Augmented Generation, think of it like giving your chat
 
 ---
 
-## **Demo picture: Terminal based interface**
+## 💻 **Demo picture: Terminal based interface**
 ![RAG_in_action](Data_file/Demo.png) 
 
 ---
 
-## **Chaining Methods Explained**
+## ⛓️ **Chaining Methods Explained**
 
 ![RAG_Explained](Data_file/LangChain.webp)
 
