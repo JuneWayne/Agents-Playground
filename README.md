@@ -30,6 +30,8 @@ RAG stands for Retrieval Augmented Generation, think of it like giving your chat
 
 ## **Chaining Methods Explained**
 
+![RAG_Explained](Data_file/LangChain.webp)
+
 <code style="color : blue">**STUFF CHAIN**</code>: convert documents into smaller chunks, processing each chunk individually, combining summaries to generate a final summary. (method used by this particular project)
 - Pros 👍：
   - efficiently handles large documents
