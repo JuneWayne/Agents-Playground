@@ -64,7 +64,7 @@ RAG stands for Retrieval Augmented Generation, think of it like giving your chat
   - self-optimization in terms of the quality of response produced
   - automating the optimization process of LLM response generation quality
 - Cons 👎：
-  - could take up more time/slower response due to the need for scoring and comparison
+  - could take up more time/slower response due to the need for scoring and evaluation
 
 
   
