@@ -37,6 +37,7 @@ RAG stands for Retrieval Augmented Generation, think of it like giving your chat
 - Cons 👎：
   - Depends on how well **chunk size** and **chunk overlap** is tweaked
   - could be slower (depending on condition)
+    
 **Map reduce**: summarizing each document individually (map step) and combining summaries into a final summary (reduce step). Dividing documents into chunks, generating summaries for each chunk, combining summaries to create a final summary.
 - Pros 👍：
   - effectively handles large documents by dividing texts into manageble chunks
@@ -44,6 +45,7 @@ RAG stands for Retrieval Augmented Generation, think of it like giving your chat
   - scalable, could handle documents that exceed token limit of LLMs
 - Cons 👎：
   - requires extra step in combining individual summaries, could render response generation time slower
+    
  **Refine**: iteratively updates its answer by looping over the input documents, for each document, it passes non-document inputs, the current document, and the latest intermediate answer to the LLM chain to retrieve a new answer. Alternative to **Map Reduce**, involves generating the summary of the first chunk, combining it with the second, generates another summary, and continue the process until a final summary is achieved.
 - Pros 👍：
   - simpler than **Map reduce** method
@@ -52,6 +54,7 @@ RAG stands for Retrieval Augmented Generation, think of it like giving your chat
 - Cons 👎：
   - limited functionality compared to other techniques
   - could be slower than other techniques
+    
 **Map-Rerank**: divides texts into batches, submits each one to the LLM, returns a score indicating how comprehensively it answers the question, determines final answer based on highest scoring replies from each batch.
 - Pros 👍：
   - self-optimization in terms of the quality of response produced
