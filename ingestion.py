@@ -21,7 +21,7 @@ for pdf_file in pdf_files:
     loader = PyPDFLoader(pdf_file)
     docs = loader.load()  
 
-    text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
+    text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
     chunks = text_splitter.split_documents(docs)
     print(f"{pdf_file} => Created {len(chunks)} chunks")
     PineconeVectorStore.from_documents(chunks, embeddings, index_name=os.environ.get("INDEX_NAME"))
