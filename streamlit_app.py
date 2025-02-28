@@ -3,7 +3,6 @@ import warnings
 import streamlit as st
 from dotenv import load_dotenv
 
-# LangChain & related imports
 from langchain_openai import OpenAIEmbeddings
 from langchain_community.chat_models import ChatOpenAI
 from langchain_pinecone import PineconeVectorStore
@@ -31,8 +30,9 @@ Standalone question:"""
 def create_stuff_chain(llm):
     
     custom_template = """
-You are a helpful assistant. Use the following context to answer the user's question, remember you may access multiple files at the same time,
-you can be lengthy in your answer, but you have to produce references to which specific document you are referring to each time you generate an opinion
+You are a helpful assistant specialized in analyzing meeting/interview notes.
+Given the context (documents) below, summarize the key information, highlight any
+action items, and then answer the user's question.
 
 Context:
 {context}
@@ -53,7 +53,8 @@ Answer:
     )
 
 def main():
-    st.title("Meeting/Interview Notes Q&A (Direct Answers)")
+    st.title("Hello! My name is Layla, I am your interviewing assistant\nI have your notes in file already, how may I help you?")
+    chat_history = [("Assistant", "Hello! My name is Layla, I am your interviewing assistant, I have your notes in file already, how may I help you?")]
 
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = []
@@ -64,16 +65,12 @@ def main():
         embedding=embeddings
     )
 
-    # Create your chat model
-    chat = ChatOpenAI(verbose=True, temperature=0, model_name="gpt-4o")
+    chat = ChatOpenAI(verbose=True, temperature=1, model_name="gpt-4o")
 
-    # Build question generator (if your version requires it)
     question_generator_chain = create_question_generator(llm=chat)
 
-    # Create “stuff” chain with simpler prompt
     stuff_chain = create_stuff_chain(llm=chat)
 
-    # Build ConversationalRetrievalChain
     qa = ConversationalRetrievalChain(
         retriever=vectorstore.as_retriever(),
         combine_docs_chain=stuff_chain,
