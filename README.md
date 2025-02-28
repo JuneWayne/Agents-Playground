@@ -66,5 +66,9 @@ RAG stands for Retrieval Augmented Generation, think of it like giving your chat
 - Cons 👎：
   - could take up more time/slower response due to the need for scoring and evaluation
 
+---
+
+## 🍵 **Demo of Layla Chatbot**
+![Layla_demo](Data_file/Layla_Chatbot_Demo.png)
 
   
