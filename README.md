@@ -70,6 +70,7 @@ RAG stands for Retrieval Augmented Generation, think of it like giving your chat
 
 ## 🍵 **Demo of Layla Chatbot**
 This chatbot utilizes the Streamlit's package in hosting a locally supported web-based user interface that allows for easier interaction with the Chabot. 
+
 ![Layla_demo](Data_file/Layla_Chatbot_Demo.png)
 
   
