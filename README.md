@@ -1,4 +1,4 @@
-# 🤖 **RAG-Based Chatbot Demo (In Terminal)**
+# 🤖 **RAG-Based Chatbot w/ StreamLit Web Application**
 
 ![RAG_Explained](Data_file/RAG%20visualization.png)
 
