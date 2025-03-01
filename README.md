@@ -1,4 +1,4 @@
-# 🤖 **RAG-Based Chatbot Demo (In Terminal)**
+# 🤖 **RAG-Based Chatbot w/ StreamLit Web Application**
 
 ![RAG_Explained](Data_file/RAG%20visualization.png)
 
@@ -66,5 +66,11 @@ RAG stands for Retrieval Augmented Generation, think of it like giving your chat
 - Cons 👎：
   - could take up more time/slower response due to the need for scoring and evaluation
 
+---
+
+## 🍵 **Demo of Layla Chatbot**
+This chatbot utilizes the Streamlit's package in hosting a locally supported web-based user interface that allows for easier interaction with the Chabot. 
+
+![Layla_demo](Data_file/Layla_Chatbot_Demo.png)
 
   
