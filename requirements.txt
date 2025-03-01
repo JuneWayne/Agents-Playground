@@ -5,4 +5,16 @@ langchain-pinecone
 langchain-openai
 python-dotenv
 pypdf
-
+torch
+transformers
+accelerate
+bitsandbytes
+sentence-transformers
+faiss-cpu
+openpyxl
+pacmap
+datasets
+langchain-community
+langchain_community
+ragatouille
+matplotlib

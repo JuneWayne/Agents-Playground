@@ -12,7 +12,8 @@ pdf_files = [
     'Data_file/Mark_Yeh_Interview_Notes_Clean.pdf',
     'Data_file/Jonathan_Pau_Interview_Notes_Detailed.pdf',
     'Data_file/Updated_Meeting_Notes.pdf',
-    'Data_file/Joshua_Rene_Interview_Notes.pdf'
+    'Data_file/Joshua_Rene_Interview_Notes.pdf',
+    'Data_file/Keita_Interview_Script.pdf'
 ]
 
 embeddings = OpenAIEmbeddings(openai_api_key=os.environ.get("OPENAI_API_KEY"))

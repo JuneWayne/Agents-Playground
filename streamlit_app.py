@@ -1,6 +1,7 @@
 import os
 import warnings
 import streamlit as st
+import time
 from dotenv import load_dotenv
 
 from langchain_openai import OpenAIEmbeddings
@@ -53,8 +54,8 @@ Answer:
     )
 
 def main():
-    st.title("Hello! My name is Layla, I am your interviewing assistant\nI have your notes in file already, how may I help you?")
-    chat_history = [("Assistant", "Hello! My name is Layla, I am your interviewing assistant, I have your notes in file already, how may I help you?")]
+    st.title("Hello! My name is Layla, I am your interviewing assistant!")
+    #chat_history = [("Assistant", "Hello! My name is Layla, I am your interviewing assistant, I have your notes in file already, how may I help you?")]
 
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = []
@@ -76,13 +77,21 @@ def main():
         combine_docs_chain=stuff_chain,
         question_generator=question_generator_chain
     )
-
-    query = st.text_input("Enter your question:")
+    
+    st.subheader('I have all your documents in file, how may I help you?')
+    query = st.text_input("# i.e. Summarize Joe's interview notes for me in bullet points ")
     if st.button("Submit") and query.strip():
         res = qa({"question": query, "chat_history": st.session_state.chat_history})
 
-        st.write("### Response:")
+        st.balloons()
+        st.subheader('Thinking...')
+        st.progress(10)
+        with st.spinner('Looking over the corresponding documents...'):
+            time.sleep(10)
+
+        st.write("### Here's what I got:")
         st.write(res["answer"])
+        st.write("### Let me know if you'd like me to find something different!")
 
         st.session_state.chat_history.append((query, res["answer"]))
 
