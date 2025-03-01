@@ -18,3 +18,4 @@ langchain-community
 langchain_community
 ragatouille
 matplotlib
+pinecone

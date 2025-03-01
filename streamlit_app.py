@@ -81,14 +81,18 @@ def main():
     st.subheader('I have all your documents in file, how may I help you?')
     query = st.text_input("# i.e. Summarize Joe's interview notes for me in bullet points ")
     if st.button("Submit") and query.strip():
-        res = qa({"question": query, "chat_history": st.session_state.chat_history})
-
         st.balloons()
-        st.subheader('Thinking...')
-        st.progress(10)
-        with st.spinner('Looking over the corresponding documents...'):
-            time.sleep(10)
-
+        loading_placeholder = st.empty()
+        loading_placeholder.image("Data_file/loading_cat.gif", caption="loading...")
+    
+        res = qa({"question": query, "chat_history": st.session_state.chat_history})
+        loading_placeholder.empty()
+        #st.subheader('Thinking...')
+        #st.progress(10)
+        #with st.spinner('Looking over the corresponding documents...'):
+            #time.sleep(10)
+        with st.success("Ah! There you go!"):
+            time.sleep(1)
         st.write("### Here's what I got:")
         st.write(res["answer"])
         st.write("### Let me know if you'd like me to find something different!")
