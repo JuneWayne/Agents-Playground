@@ -78,3 +78,7 @@ This chatbot utilizes the Streamlit's package in hosting a locally supported web
 This chatbot utilizes the fire crawl api to scrape websites and produce summarized responses by user query
 
 ![layla_webscrape](Data_file/webscrape_screenshot.png)
+
+## 🍵 **2D demonstration of similarity search**
+The chatbot compares distances between the query and the knowledge base text chunks to find the closest vector distances to determine which knowledge source to retrieve from.
+![vector_space](Data_file/Vector_map.png)
