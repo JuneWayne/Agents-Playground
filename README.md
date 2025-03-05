@@ -1,4 +1,4 @@
-# 🤖 **Layla Chatbot (RAG-based LLM) **
+# 🤖 **Layla Chatbot (RAG-based LLM)**
 
 ![RAG_Explained](Data_file/RAG%20visualization.png)
 
