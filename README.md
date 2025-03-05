@@ -81,4 +81,5 @@ This chatbot utilizes the fire crawl api to scrape websites and produce summariz
 
 ## 🍵 **2D demonstration of similarity search**
 The chatbot compares distances between the query and the knowledge base text chunks to find the closest vector distances to determine which knowledge source to retrieve from.
+The picture below does not reflect the vector store of this project, it is a reference picture from another project
 ![vector_space](Data_file/Vector_map.png)
