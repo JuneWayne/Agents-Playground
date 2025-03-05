@@ -74,3 +74,7 @@ This chatbot utilizes the Streamlit's package in hosting a locally supported web
 ![Layla_demo](Data_file/Layla_Chatbot_Demo.png)
 
   
+## 🍵 **Demo of Layla Web-scraping Chatbot**
+This chatbot utilizes the fire crawl api to scrape websites and produce summarized responses by user query
+
+![layla_webscrape](Data_file/webscrape_screenshot.png)
