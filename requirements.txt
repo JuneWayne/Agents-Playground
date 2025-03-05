@@ -19,3 +19,5 @@ langchain_community
 ragatouille
 matplotlib
 pinecone
+firecrawl-py
+
