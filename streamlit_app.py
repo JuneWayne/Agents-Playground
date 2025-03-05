@@ -54,7 +54,7 @@ Answer:
     )
 
 def main():
-    st.title("Hello! My name is Layla, I am your interviewing assistant!")
+    st.title("Hello! My name is Layla, I am your personal interviewing assistant! 🐈")
     #chat_history = [("Assistant", "Hello! My name is Layla, I am your interviewing assistant, I have your notes in file already, how may I help you?")]
 
     if "chat_history" not in st.session_state:
@@ -91,8 +91,8 @@ def main():
         #st.progress(10)
         #with st.spinner('Looking over the corresponding documents...'):
             #time.sleep(10)
-        with st.success("Ah! There you go!"):
-            time.sleep(1)
+        st.balloons()
+        st.success("Ah! There you go!")
         st.write("### Here's what I got:")
         st.write(res["answer"])
         st.write("### Let me know if you'd like me to find something different!")
