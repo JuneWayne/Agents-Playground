@@ -20,7 +20,7 @@ ragatouille
 matplotlib
 pinecone
 firecrawl-py
-chromadb==0.3.25
+chromadb
 
 
 
