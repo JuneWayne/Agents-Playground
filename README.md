@@ -1,4 +1,4 @@
-# 🤖 **RAG-Based Chatbot w/ StreamLit Web Application**
+# 🤖 **Layla Chatbot (RAG-based LLM) **
 
 ![RAG_Explained](Data_file/RAG%20visualization.png)
 
