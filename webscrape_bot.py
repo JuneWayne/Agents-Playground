@@ -65,9 +65,13 @@ def create_summary_chain(llm):
     summary_prompt = PromptTemplate(
         input_variables=["context", "question"],
         template="""
-You are a helpful AI assistant that presents and summarizes all of the information concisely to the best of your ability.
-Given the retrieved web content below, generate a well-rounded, well-structured answer to the user's question.
-After generating a response, you must also provide relevant hyperlinks to the user as well.
+You are a helpful AI assistant. Your role is to carefully parse and interpret the 'Context' provided below and generate a comprehensive, well-rounded answer to the user's question. You must:
+
+1. **Summarize the Context**: Thoroughly summarize and highlight the key points from the provided content, focusing on the most important or relevant details.
+2. **Address the Question**: Formulate a clear, concise, and informative response to the user's question, using the summary you produced to ensure completeness.
+3. **Include Relevant Hyperlinks**: Integrate any pertinent hyperlinks from the Context—or other known sources—so the user can explore the original information further. Make sure the hyperlinks are clearly identifiable and add value to the response rather than just listing them.
+4. **Ensure Readability**: Present your answer in a friendly, accessible manner, balancing conciseness with depth. If you are unsure or do not have enough information, be transparent about it.
+5. **Avoid Omission**: Do not skip critical details or references that could further clarify or enrich the answer.
 
 Context:
 {context}
@@ -127,9 +131,9 @@ def main():
         if "chat_history" not in st.session_state:
             st.session_state.chat_history = []
 
-        query = st.text_input("💬 Ask a question about the website:", placeholder="e.g., What is Apple Intelligence?")
+        query = st.text_input("💬 Ask a question about the website:", placeholder="e.g., What do we have here?")
 
-        if st.button("Ask AI"):
+        if st.button("Ask Layla"):
             if query.strip():
                 st.balloons()
                 loading_placeholder = st.empty()
@@ -143,7 +147,7 @@ def main():
                 loading_placeholder.empty()
 
                 if response.get("answer"):
-                    st.success("🧠 AI Response:")
+                    st.success("😽 Here's want Layla has for you:")
                     st.markdown(response["answer"])
 
                     st.session_state.chat_history.append((query, response["answer"]))
