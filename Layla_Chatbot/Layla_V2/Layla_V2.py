@@ -17,7 +17,7 @@ from pathlib import Path
 # ---------------------------
 # Load Environment Variables
 # ---------------------------
-env_path = Path("../../.env")
+env_path = "../../.env"
 load_dotenv(dotenv_path=env_path)
 openai_api_key = os.getenv("OPENAI_API_KEY")
 pinecone_api_key = os.getenv("PINECONE_API_KEY")
