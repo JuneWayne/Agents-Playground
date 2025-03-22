@@ -22,3 +22,6 @@ pinecone
 firecrawl-py
 chromadb
 pytesseract
+crewai
+markitdown
+crewai_tools
