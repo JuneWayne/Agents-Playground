@@ -28,7 +28,7 @@ def create_vector_store(url, persistent_directory):
         return
 
     st.info(f"🔍 Crawling: {url} furiously...")
-    loader = FireCrawlLoader(api_key=api_key, url=url, mode="scrape")
+    loader = FireCrawlLoader(api_key=api_key, url=url, mode="crawl")
     docs = loader.load()
     st.success("Website crawled successfully!")
 
