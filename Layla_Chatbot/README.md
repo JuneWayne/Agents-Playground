@@ -1,6 +1,6 @@
 # 🤖 **Conversational Chatbots**
 
-<img src="../Data_file/AI_design_patterns.gif" alt="Alt Text" width="600" height="900" />
+<img src="../Data_file/AI_design_patterns.gif" alt="Alt Text" width="800" height="900" />
 
 
 AI Chatbot systems can be designed in many different architectures based on user needs and scenario adapatation.
