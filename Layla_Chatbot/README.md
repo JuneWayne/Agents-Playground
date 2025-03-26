@@ -9,7 +9,7 @@ In this section of the page, I tried to create a traditional RAG Based document 
 ---
 
 ## 🚀 **Hierarchical Agents - Digital Market Research Team**  
-<img src="../Data_file/MarketResearch-1.png" alt="Alt Text" width="600" height="700" />
+<img src="../Data_file/MarketResearch-1.png" alt="Alt Text" width="500" height="700" />
 
 🎯 Utilizing CrewAI to create a enterprise-grade (perhaps not yet) digitalized workforce that researches any market, industry, company based on user query.
 Returns a downloadable pdf file that gives users an enterprise-grade (again, perhaps not yet) due diligence report on selected topic.
