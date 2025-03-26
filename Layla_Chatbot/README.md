@@ -5,7 +5,7 @@
 
 AI Chatbot systems can be designed in many different architectures based on user needs and scenario adapatation.
 
-In this section of the page, I tried to create a traditional RAG Based document retriever conversational chatbot, a Hierarchical Mult-agent chatbot, and a RAG-Webscraping fall-back mechanism chatbot （Performs document search first and falls back to webscraping if source content is not adequate for user query)
+### In this section of the page, I tried to create a traditional RAG Based document retriever conversational chatbot, a Hierarchical Mult-agent chatbot, and a RAG-Webscraping fall-back mechanism chatbot （Performs document search first and falls back to webscraping if source content is not adequate for user query)
 ---
 ## 🚀 **Hierarchical Agents - Digitalized Market Research Team**  
 
