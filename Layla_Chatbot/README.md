@@ -32,6 +32,7 @@ Further improvements of this chatbot could either be done by switching models (i
 Traditionally, we've either solely created an independent RAG-based chatbot or a Web-Scraper bot that performs tasks such as precision-based document retrieval or web-scraping. Nevertheless, that can be a little undesirable when the user wants to access both document retrieval and web-scraping at the same time. This is why an integration of the two features can be much more convenient and can be used in a wider-range of scenarios. 
 
 🎯 Precision document retrieval of research paper data
+
 <img src="../Data_file/rag-web2.png" alt="Alt Text" width="600" height="550" />
 
 🎯 The multi-agent system makes a decision on which tools to use given the user query, the agent is given two primary tools - web-scraping and document retrieval - both tools are readily available, but it is up to the agent to decide which one is the most appropriate to be utilized to garner information for the user. If the user explicitly says not to use web-scrape, the agent will (in most cases) follow that command.
