@@ -8,7 +8,8 @@ AI Chatbot systems can be designed in many different architectures based on user
 In this section of the page, I tried to create a traditional RAG Based document retriever conversational chatbot, a Hierarchical Mult-agent chatbot, and a RAG-Webscraping fall-back mechanism chatbot （Performs document search first and falls back to webscraping if source content is not adequate for user query)
 ---
 
-## 🚀 **Hierarchical Agents - Digital Market Research Team**  
+## 🚀 **Hierarchical Agents - Digitalized Market Research Team**  
+
 <img src="../Data_file/MarketResearch-1.png" alt="Alt Text" width="600" height="550" />
 
 🎯 Utilizing CrewAI to create a enterprise-grade (perhaps not yet) digitalized workforce that researches any market, industry, company based on user query.
@@ -25,4 +26,4 @@ Further improvements of this chatbot could either be done by switching models (i
 
 ---
 
-
+## **RAG + Webscrape Fallback - Information retireval Bot**
