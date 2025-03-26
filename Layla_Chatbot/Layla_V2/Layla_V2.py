@@ -99,7 +99,7 @@ class DocumentSearchTool(BaseTool):
 
     def _run(self, query: str) -> str:
         query_embedding = self._get_openai_embedding(query)
-        response = self._index.query(query_vector=query_embedding, top_k=5, include_metadata=True)
+        response = self._index.query(vector=query_embedding, top_k=5, include_metadata=True)
         docs = [match["metadata"]["text"] for match in response["matches"]]
         return "\n___\n".join(docs)
 
@@ -151,7 +151,9 @@ def create_agents_and_tasks(pdf_tool: BaseTool):
         goal=(
             "Synthesize the retrieved information into a concise and coherent response "
             "based on the user query: {query}. If you are not able to retrieve the "
-            "information then respond with \"I'm sorry, I couldn't find the information "
+            "information then think harder and think creatively of how the user question could be linked to the document source or the source pulled from the internet,"
+            "if you truly don't have that information, "
+            " respond with \"I'm sorry, I couldn't find the information "
             "you're looking for.\""
         ),
         backstory=(
@@ -177,9 +179,14 @@ def create_agents_and_tasks(pdf_tool: BaseTool):
     response_task = Task(
         description="Synthesize the final response for the user query: {query}",
         expected_output=(
-            "A concise and coherent response based on the retrieved information "
+            "A detailed, coherent, and elaborated response based on the retrieved information "
             "from the right source for the user query: {query}. If you are not "
-            "able to retrieve the information, then respond with: "
+            "able to retrieve the exact information, think about how the user question might relate to the ingested source,"
+            "If you still cannot come up with a reliable answer, fall back to using the webscraping tool, but you must"
+            "explicitly say that you've utilized webscraping to retrieve the information to answer the user's question,"
+            "if the user explicitly forbids you to use webscraping, go back to the document source and see if you can come up with an answer,"
+            "if not,"
+            "then respond with: "
             "\"I'm sorry, I couldn't find the information you're looking for.\""
         ),
         agent=response_synthesizer_agent

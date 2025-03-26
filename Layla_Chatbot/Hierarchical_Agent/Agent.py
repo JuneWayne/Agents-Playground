@@ -10,158 +10,226 @@ from pydantic import BaseModel, Field, ConfigDict, PrivateAttr
 from crewai import Agent, Crew, Process, Task, LLM
 from crewai_tools import SerperDevTool
 
+# Load environment variables
 load_dotenv(dotenv_path="../../.env")
 openai_api_key = os.getenv("OPENAI_API_KEY")
 serper_api_key = os.getenv("SERPER_API_KEY")
 
+# Initialize the language model and tool(s)
 llm = LLM(model='gpt-4o', api_key=openai_api_key)
 serper_tool = SerperDevTool(api_key=serper_api_key)
 
-def execute_task() -> Crew:
+def create_market_research_team() -> Crew:
     """
-    Build and return a Crew object with the desired agents and tasks.
+    Build and return a Crew object for enterprise-grade market research
+    using a new multi-agent team structure.
     """
 
-    manager_agent = Agent(
-        role='Project Research Manager',
-        goal='Oversee the project research',
-        backstory="""You are an experienced project manager responsible
-                     for ensuring project research is carried out successfully
-                     and with good quality.""",
+    # 1. Team Lead – Market Research Director
+    team_lead = Agent(
+        role="Team Lead - Market Research Director",
+        goal=(
+            "Oversee the entire research project and synthesize all analyst reports into a cohesive, enterprise-grade final report. "
+            "Ensure that every data point is supported by a direct citation from a reputable source."
+        ),
+        backstory=(
+            "A seasoned project director with extensive experience in strategic consulting and market research. "
+            "Guides the team to deliver a high-level final report that meets the standards of top-tier consulting firms."
+        ),
         allow_delegation=True,
         verbose=True,
         llm=llm,
     )
 
-    market_demand_agent = Agent(
-        role="Market Demand Analyst",
-        goal="Analyze market demand for new projects.",
-        backstory="""A skilled market analyst with expertise in
-                     evaluating product-market fit.""",
+    # 2. Macro Market Analyst
+    macro_market_analyst = Agent(
+        role="Macro Market Analyst",
+        goal=(
+            "Analyze the overall market for '{project_title}', including market size, growth trends, segmentation, and key drivers. "
+            "Provide detailed insights with direct citations."
+        ),
+        backstory=(
+            "An expert in macroeconomic trends and market dynamics, skilled in translating complex market data into actionable insights."
+        ),
         allow_delegation=False,
         verbose=True,
         llm=llm,
-        tools=[serper_tool]
+        tools=[serper_tool],
     )
 
-    risk_analysis_agent = Agent(
-        role='Risk Analysis Analyst',
-        goal='Assess potential risks associated with the project.',
-        backstory="""A financial and strategic expert
-                     focused on identifying business risks.""",
+    # 3. Consumer Insights Analyst
+    consumer_insights_analyst = Agent(
+        role="Consumer Insights Analyst",
+        goal=(
+            "Research and analyze consumer behavior, demographics, and preferences for '{project_title}'. "
+            "Identify key segments and emerging trends with supporting data and direct citations."
+        ),
+        backstory=(
+            "A specialist in consumer behavior and market segmentation, adept at identifying evolving trends and providing data-backed insights."
+        ),
         allow_delegation=False,
         verbose=True,
         llm=llm,
-        tools=[serper_tool]
+        tools=[serper_tool],
     )
 
-    return_on_investment_agent = Agent(
-        role='Return on Investment Analyst',
-        goal='Estimate the financial return on investment.',
-        backstory="""You are an expert in financial modeling and
-                     investment analysis.""",
+    # 4. Competitive Intelligence Analyst
+    competitor_intelligence_analyst = Agent(
+        role="Competitive Intelligence Analyst",
+        goal=(
+            "Examine the competitive landscape for '{project_title}'. Evaluate competitor strategies, market share, pricing, and positioning. "
+            "Substantiate each insight with direct source citations."
+        ),
+        backstory=(
+            "A seasoned competitive intelligence expert skilled in benchmarking and dissecting competitors’ strategies to uncover market opportunities."
+        ),
         allow_delegation=False,
         verbose=True,
         llm=llm,
-        tools=[serper_tool]
+        tools=[serper_tool],
     )
 
-    manager_task = Task(
-        description="""Oversee the project research on {project_title}
-                       and ensure timely, high-quality responses""",
-        expected_output="""A manager-approved response ready to be sent
-                           as an article on {project_title}""",
-        agent=manager_agent,
+    # 5. Financial & Risk Analyst
+    financial_risk_analyst = Agent(
+        role="Financial & Risk Analyst",
+        goal=(
+            "Provide a comprehensive financial analysis for '{project_title}', including ROI projections, cost estimations, and risk assessments. "
+            "Every financial data point must include a direct citation."
+        ),
+        backstory=(
+            "An expert in financial modeling and risk management, capable of delivering data-driven financial insights that guide strategic decisions."
+        ),
+        allow_delegation=False,
+        verbose=True,
+        llm=llm,
+        tools=[serper_tool],
     )
 
-    market_demand_task = Task(
-        description="Analyze the demand for the project '{project_title}'",
-        expected_output="A detailed bulletlist of market demand trends with web-source references cited each point",
-        agent=market_demand_agent,
+    # Define tasks for each agent
+
+    macro_market_task = Task(
+        description=(
+            "Conduct a detailed analysis of the overall market for '{project_title}', focusing on market size, growth trends, segmentation, and key drivers. "
+            "Include direct citations for every claim."
+        ),
+        expected_output=(
+            "A bullet-point summary and narrative of the macro market landscape for '{project_title}', with each point supported by a credible source."
+        ),
+        agent=macro_market_analyst,
     )
 
-    risk_analysis_task = Task(
-        description="Analyze the risk of the project '{project_title}'",
-        expected_output="A categorized risk assessment report, a bullet list following the structure of a SWOT analysis, with each point having relevant web-sources cited ",
-        agent=risk_analysis_agent,
+    consumer_insights_task = Task(
+        description=(
+            "Analyze the consumer landscape for '{project_title}'. Identify key consumer segments, behavior patterns, and preferences. "
+            "Provide direct citations for each insight."
+        ),
+        expected_output=(
+            "A comprehensive breakdown of consumer insights for '{project_title}', with data points and direct source links."
+        ),
+        agent=consumer_insights_analyst,
     )
 
-    return_on_investment_task = Task(
-        description="Analyze the return on investment of the project '{project_title}'",
-        expected_output="A structured ROI estimate for the project, with relevant numerical data to support each argument and relevant web-sources cited",
-        agent=return_on_investment_agent
+    competitive_intelligence_task = Task(
+        description=(
+            "Evaluate the competitive environment for '{project_title}', including competitor strategies, market share, pricing, and positioning. "
+            "Ensure every insight is accompanied by a direct citation."
+        ),
+        expected_output=(
+            "A detailed competitive analysis for '{project_title}' presented in bullet points with supporting citations."
+        ),
+        agent=competitor_intelligence_analyst,
     )
 
-    final_report_task = Task(
-        description="""Review the final response from the market demand,
-                       risk analysis, and ROI agents and create a final report.""",
-        expected_output="""A comprehensive report on the project '{project_title}'
-                           containing market demand, risk analysis,
-                           and return on investment.""",
-        agent=manager_agent
+    financial_risk_task = Task(
+        description=(
+            "Develop a financial analysis for '{project_title}', including ROI projections, cost estimations, and risk assessments. "
+            "Substantiate each financial data point with direct source citations."
+        ),
+        expected_output=(
+            "A financial and risk assessment report for '{project_title}' that details key metrics and risk factors with credible source links."
+        ),
+        agent=financial_risk_analyst,
     )
 
-    project_research_crew = Crew(
-        agents=[market_demand_agent, risk_analysis_agent, return_on_investment_agent],
-        tasks=[
-            market_demand_task,
-            risk_analysis_task,
-            return_on_investment_task,
-            final_report_task
+    synthesis_task = Task(
+        description=(
+            "Synthesize the findings from the Macro Market, Consumer Insights, Competitive Intelligence, and Financial & Risk tasks into one cohesive, enterprise-grade market research report for '{project_title}'. "
+            "Ensure a consistent tone and that every data point is properly cited."
+        ),
+        expected_output=(
+            "A final, polished market research report for '{project_title}' that integrates all aspects of the analysis with thorough citations."
+        ),
+        agent=team_lead,
+    )
+
+    
+    market_research_crew = Crew(
+        agents=[
+            macro_market_analyst,
+            consumer_insights_analyst,
+            competitor_intelligence_analyst,
+            financial_risk_analyst
         ],
-        manager_agent=manager_agent,
+        tasks=[
+            macro_market_task,
+            consumer_insights_task,
+            competitive_intelligence_task,
+            financial_risk_task,
+            synthesis_task
+        ],
+        manager_agent=team_lead,
         process=Process.hierarchical,
         verbose=True,
     )
 
-    return project_research_crew
+    return market_research_crew
 
 def reset_chat():
     st.session_state.messages = []
     gc.collect()
 
 def main():
-    st.title("Goldman Stanley's Consulting Team")
+    st.title("Enterprise Market Research Team")
 
     if "messages" not in st.session_state:
         st.session_state.messages = []
     if "crew" not in st.session_state:
         st.session_state.crew = None
 
-    prompt = st.chat_input("What would you like to research today?")
-    if prompt:
+    user_prompt = st.chat_input(
+        "Enter the market, product, or project to analyze with our enterprise-grade research team:"
+    )
 
-        st.session_state.messages.append({"role": "user", "content": prompt})
+    if user_prompt:
+        st.session_state.messages.append({"role": "user", "content": user_prompt})
         with st.chat_message("user"):
-            st.markdown(prompt)
+            st.markdown(user_prompt)
 
         if st.session_state.crew is None:
-            st.session_state.crew = execute_task()
+            st.session_state.crew = create_market_research_team()
 
         with st.chat_message("assistant"):
             message_placeholder = st.empty()
             full_response = ""
-            with st.spinner("Thinking..."):
-                #st.success("摩根大通不辱使命，用更好的结果欢迎曹总的到来！")
+            with st.spinner("Our research team is gathering data..."):
                 loading_placeholder = st.empty()
                 loading_placeholder2 = st.empty()
                 loading_placeholder3 = st.empty()
                 loading_placeholder.image("../../Data_file/cattyping2.gif")
                 loading_placeholder2.image("../../Data_file/cattyping.gif")
                 loading_placeholder3.image("../../Data_file/frogtyping.gif")
-                inputs = {"project_title": prompt}
+
+                inputs = {"project_title": user_prompt}
                 result = st.session_state.crew.kickoff(inputs=inputs).raw
-                # crew_conversation = result.debug
-                # with st.expander("Agent work in progress..."):
-                #     st.write(crew_conversation)
+
+                st.success("Here is your comprehensive market research report:")
                 loading_placeholder.empty()
                 loading_placeholder2.empty()
                 loading_placeholder3.empty()
+
             lines = result.split('\n')
             for i, line in enumerate(lines):
-                full_response += line
-                if i < len(lines) - 1:
-                    full_response += '\n'
+                full_response += line + ("\n" if i < len(lines) - 1 else "")
                 message_placeholder.markdown(full_response + "▌")
                 time.sleep(0.1)
             message_placeholder.markdown(full_response)

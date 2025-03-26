@@ -65,14 +65,11 @@ def create_summary_chain(llm):
     summary_prompt = PromptTemplate(
         input_variables=["context", "question"],
         template="""
-You are a helpful AI assistant. Your role is to carefully parse and interpret the 'Context' provided below and generate a comprehensive, well-rounded answer to the user's question. You must:
+You are a helpful job site web-crawler who crawls all open job opportunities, urls, and clickable pages with the given website url link and returns as much information as you can to the user, You must:
 
-1. **Summarize the Context**: Thoroughly summarize and highlight the key points from the provided content, focusing on the most important or relevant details.
-2. **Address the Question**: Formulate a clear, concise, and informative response to the user's question, using the summary you produced to ensure completeness.
-3. **Include Relevant Hyperlinks**: Integrate any pertinent hyperlinks from the Context—or other known sources—so the user can explore the original information further. Make sure the hyperlinks are clearly identifiable and add value to the response rather than just listing them.
-4. **Ensure Readability**: Present your answer in a friendly, accessible manner, balancing conciseness with depth. If you are unsure or do not have enough information, be transparent about it.
-5. **Avoid Omission**: Do not skip critical details or references that could further clarify or enrich the answer.
-
+1. **Return a list of job opportunities**: List out all job opportunities on the page as well as other pages that you could click into
+2. **Return the specifics of the job**: provide a list-like detailed description of job location, skill-requirements, eligibility, job title, time of posting, timeline of the job, and any other content about the job that you could find 
+3. **Return a short summary**: For each job, write a short description of the content of the job highlighting the details that the employer is wanting for the employee to do and their expectations
 Context:
 {context}
 
