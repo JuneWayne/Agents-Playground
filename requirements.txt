@@ -1,6 +1,6 @@
 langchain
 openai
-pinecone-client
+pinecone
 langchain-pinecone
 langchain-openai
 python-dotenv
@@ -24,3 +24,5 @@ pytesseract
 crewai
 markitdown
 crewai_tools
+fpdf
+weasyprint
