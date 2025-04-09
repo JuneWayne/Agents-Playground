@@ -1,6 +1,6 @@
 # 🔍 **Self Evaluation System**
 
-<img src="../Data_file/AI_design_patterns.gif" alt="Alt Text" width="700" height="800" />
+<img src="../../Data_file/Query_response.png" alt="Alt Text" width="700" height="800" />
 
 
 
