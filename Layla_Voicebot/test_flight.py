@@ -9,6 +9,7 @@ import json
 
 import streamlit as st
 import openai
+import requests
 from dotenv import load_dotenv
 from audiorecorder import audiorecorder
 from io import BytesIO
@@ -28,10 +29,14 @@ from pinecone import Pinecone, ServerlessSpec
 # ---------------------------
 # Load Environment Variables
 # ---------------------------
-load_dotenv("../../.env")  # Adjust path as necessary
+load_dotenv("../.env") 
 pinecone_api_key = os.getenv("PINECONE_API_KEY")
 pinecone_region = os.getenv("PINECONE_REGION", "us-east-1")
 pinecone_cloud = os.getenv("PINECONE_CLOUD", "aws")
+
+# ElevenLabs API variables
+elevenlabs_api_key = os.getenv("ELEVEN_LABS_API_KEY")
+elevenlabs_voice_id = os.getenv("ELEVEN_LABS_VOICE_ID")  
 
 # ---------------------------
 # Pinecone Setup
@@ -48,7 +53,7 @@ def transcribe_audio(wav_bytes: bytes) -> str:
     Sends the provided WAV bytes to OpenAI's transcription endpoint.
     """
     audio_file = BytesIO(wav_bytes)
-    audio_file.name = "audio.wav"  # Helping the API detect the file type
+    audio_file.name = "audio.wav"  # Helps the API detect the file type
     audio_file.seek(0)
     try:
         transcript = client.audio.transcriptions.create(
@@ -61,31 +66,47 @@ def transcribe_audio(wav_bytes: bytes) -> str:
         return ""
 
 # ---------------------------
-# Real-Time Voice Read‑Back Function Using Browser Speech Synthesis
+# ElevenLabs Text-to-Speech Function
 # ---------------------------
-def real_time_speak(text: str):
+def elevenlabs_speak(text: str) -> BytesIO:
     """
-    Uses the browser's SpeechSynthesis API via an injected HTML/JavaScript snippet
-    to read the provided text aloud in real time.
+    Uses the ElevenLabs API to convert text to human-sounding speech.
+    Returns a BytesIO stream of the MP3 audio.
     """
-    # Safely JSON‑encode the text so special characters are escaped properly.
-    safe_text = json.dumps(text)
-    st.components.v1.html(
-        f"""
-        <html>
-          <body>
-            <script>
-              const msg = new SpeechSynthesisUtterance({safe_text});
-              // Optionally, you can customize voice or rate here:
-              // msg.rate = 1.0;
-              window.speechSynthesis.speak(msg);
-            </script>
-          </body>
-        </html>
-        """,
-        height=0,
-        width=0,
-    )
+    url = f"https://api.elevenlabs.io/v1/text-to-speech/{elevenlabs_voice_id}"
+    headers = {
+        "xi-api-key": elevenlabs_api_key,
+        "Content-Type": "application/json"
+    }
+    payload = {
+        "text": text,
+        "voice_settings": {
+            "stability": 0.5,
+            "similarity_boost": 0.75
+        }
+    }
+    response = requests.post(url, headers=headers, json=payload)
+    if response.status_code == 200:
+        return BytesIO(response.content)
+    else:
+        st.error(f"Error from ElevenLabs TTS API: {response.text}")
+        return None
+
+# ---------------------------
+# Real-Time Auto-Play Function
+# ---------------------------
+def play_audio_auto(audio_bytes: bytes):
+    """
+    Injects an HTML <audio> tag with autoplay (and hidden controls)
+    to automatically play the provided MP3 audio.
+    """
+    audio_base64 = base64.b64encode(audio_bytes).decode('utf-8')
+    audio_html = f"""
+    <audio autoplay style="display:none;" src="data:audio/mp3;base64,{audio_base64}">
+    Your browser does not support the audio element.
+    </audio>
+    """
+    st.markdown(audio_html, unsafe_allow_html=True)
 
 # ---------------------------
 # Document Search Tool (PDF indexing via Pinecone & MarkItDown)
@@ -269,11 +290,11 @@ for msg in st.session_state.messages:
 # Voice Input Section (Using Reference UI)
 # ---------------------------
 st.subheader("Voice Input")
-# Use empty strings for recorder prompts, as in your reference example
+# Use empty strings for the recorder button, as in your reference example.
 audio = audiorecorder("", "")
 
 if len(audio) > 0:
-    # Play back the recorded audio
+    # Play back the recorded audio (this is just for visual feedback)
     st.audio(audio.export().read())
     # Display audio properties (frame rate, frame width, duration)
     st.write(
@@ -314,8 +335,10 @@ if len(audio) > 0:
             response_box.markdown(full_response)
         st.session_state.messages.append({"role": "assistant", "content": result})
 
-        # Real-time voice read-back of generated response
-        real_time_speak(result)
+        # Use ElevenLabs to generate speech and auto-play it via injected HTML
+        audio_response = elevenlabs_speak(result)
+        if audio_response:
+            play_audio_auto(audio_response.getvalue())
 
 # ---------------------------
 # Text Input Section (Alternative Chat Interface)
@@ -341,5 +364,7 @@ if prompt:
         response_box.markdown(full_response)
     st.session_state.messages.append({"role": "assistant", "content": result})
 
-    # Real-time voice read-back for text input response
-    real_time_speak(result)
+    # Auto-play ElevenLabs generated audio for text input response
+    audio_response = elevenlabs_speak(result)
+    if audio_response:
+        play_audio_auto(audio_response.getvalue())

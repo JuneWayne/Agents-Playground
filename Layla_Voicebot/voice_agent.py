@@ -5,6 +5,7 @@ import gc
 import base64
 import time
 import uuid
+import json
 
 import streamlit as st
 import openai
@@ -23,9 +24,6 @@ from markitdown import MarkItDown
 
 # Pinecone (for document indexing)
 from pinecone import Pinecone, ServerlessSpec
-
-# For voice read‑back (speech synthesis)
-from gtts import gTTS
 
 # ---------------------------
 # Load Environment Variables
@@ -63,17 +61,31 @@ def transcribe_audio(wav_bytes: bytes) -> str:
         return ""
 
 # ---------------------------
-# Voice Read‑Back Function (gTTS)
+# Real-Time Voice Read‑Back Function Using Browser Speech Synthesis
 # ---------------------------
-def voice_readback(text: str) -> BytesIO:
+def real_time_speak(text: str):
     """
-    Converts provided text to speech using gTTS and returns a BytesIO stream.
+    Uses the browser's SpeechSynthesis API via an injected HTML/JavaScript snippet
+    to read the provided text aloud in real time.
     """
-    tts = gTTS(text=text, lang='en')
-    audio_buffer = BytesIO()
-    tts.write_to_fp(audio_buffer)
-    audio_buffer.seek(0)
-    return audio_buffer
+    # Safely JSON‑encode the text so special characters are escaped properly.
+    safe_text = json.dumps(text)
+    st.components.v1.html(
+        f"""
+        <html>
+          <body>
+            <script>
+              const msg = new SpeechSynthesisUtterance({safe_text});
+              // Optionally, you can customize voice or rate here:
+              // msg.rate = 1.0;
+              window.speechSynthesis.speak(msg);
+            </script>
+          </body>
+        </html>
+        """,
+        height=0,
+        width=0,
+    )
 
 # ---------------------------
 # Document Search Tool (PDF indexing via Pinecone & MarkItDown)
@@ -247,7 +259,7 @@ with st.sidebar:
 # ---------------------------
 # Main Interface: Chat Display
 # ---------------------------
-st.title("Layla Voicebot (Transcription Only Mode)")
+st.title("Layla Voicebot 🗣️")
 
 for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
@@ -257,7 +269,7 @@ for msg in st.session_state.messages:
 # Voice Input Section (Using Reference UI)
 # ---------------------------
 st.subheader("Voice Input")
-# Use empty strings for the recorder button, as in your reference example
+# Use empty strings for recorder prompts, as in your reference example
 audio = audiorecorder("", "")
 
 if len(audio) > 0:
@@ -279,22 +291,19 @@ if len(audio) > 0:
         user_voice_text = transcribe_audio(wav_bytes)
 
     if user_voice_text.strip():
-        # Log user input in chat history
+
         st.session_state.messages.append({"role": "user", "content": user_voice_text})
         with st.chat_message("user"):
             st.markdown(f"**You said:** {user_voice_text}")
 
-        # Create the multi-agent system if not already done
         if st.session_state.crew is None:
             st.session_state.crew = create_agents_and_tasks(st.session_state.pdf_tool)
 
-        # Process query through the multi-agent Crew
         with st.chat_message("assistant"):
             response_box = st.empty()
             full_response = ""
             with st.spinner("Thinking..."):
                 result = st.session_state.crew.kickoff(inputs={"query": user_voice_text}).raw
-            # Progressive rendering of the answer
             for i, line in enumerate(result.split("\n")):
                 full_response += line + ("\n" if i < len(result.split("\n")) - 1 else "")
                 response_box.markdown(full_response + "▌")
@@ -302,9 +311,7 @@ if len(audio) > 0:
             response_box.markdown(full_response)
         st.session_state.messages.append({"role": "assistant", "content": result})
 
-        # Voice read‑back of generated response
-        audio_response = voice_readback(result)
-        st.audio(audio_response, format="audio/mp3")
+        real_time_speak(result)
 
 # ---------------------------
 # Text Input Section (Alternative Chat Interface)
@@ -330,6 +337,5 @@ if prompt:
         response_box.markdown(full_response)
     st.session_state.messages.append({"role": "assistant", "content": result})
 
-    # Voice read‑back for text input response
-    audio_response = voice_readback(result)
-    st.audio(audio_response, format="audio/mp3")
+    # Real-time voice read-back for text input response
+    real_time_speak(result)
