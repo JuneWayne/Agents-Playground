@@ -16,14 +16,11 @@ from io import BytesIO
 from pydub import AudioSegment
 from openai import OpenAI
 
-# Multi-agent system packages
 from crewai import Agent, Crew, Process, Task, LLM
 from crewai.tools import BaseTool
 from typing import List, Any
 from pydantic import PrivateAttr
 from markitdown import MarkItDown
-
-# Pinecone (for document indexing)
 from pinecone import Pinecone, ServerlessSpec
 
 # ---------------------------
@@ -34,7 +31,6 @@ pinecone_api_key = os.getenv("PINECONE_API_KEY")
 pinecone_region = os.getenv("PINECONE_REGION", "us-east-1")
 pinecone_cloud = os.getenv("PINECONE_CLOUD", "aws")
 
-# ElevenLabs API variables
 elevenlabs_api_key = os.getenv("ELEVEN_LABS_API_KEY")
 elevenlabs_voice_id = os.getenv("ELEVEN_LABS_VOICE_ID")  
 
@@ -195,7 +191,6 @@ def load_llm():
 # Create Agents and Tasks (Multi-Agent System)
 # ---------------------------
 def create_agents_and_tasks(pdf_tool: Any = None):
-    # Build the tools list using only valid tools.
     tools_list = []
     if pdf_tool is not None:
         tools_list.append(pdf_tool)
@@ -290,44 +285,37 @@ for msg in st.session_state.messages:
 # Voice Input Section (Using Reference UI)
 # ---------------------------
 st.subheader("Voice Input")
-# Use empty strings for the recorder button, as in your reference example.
 audio = audiorecorder("", "")
 
 if len(audio) > 0:
-    # Play back the recorded audio (this is just for visual feedback)
+
     st.audio(audio.export().read())
-    # Display audio properties (frame rate, frame width, duration)
     st.write(
         f"Frame rate: {audio.frame_rate}, Frame width: {audio.frame_width}, "
         f"Duration: {audio.duration_seconds} seconds"
     )
 
-    # Prepare audio: export to WAV using the same parameters as your reference
     audio_buffer = io.BytesIO()
     audio.export(audio_buffer, format="wav", parameters=["-ar", "16000"])
     wav_bytes = audio_buffer.getvalue()
 
-    # Transcribe using OpenAI's transcription API
     with st.spinner("Transcribing..."):
         user_voice_text = transcribe_audio(wav_bytes)
 
     if user_voice_text.strip():
-        # Log user input in chat history
         st.session_state.messages.append({"role": "user", "content": user_voice_text})
         with st.chat_message("user"):
             st.markdown(f"**You said:** {user_voice_text}")
 
-        # Create the multi-agent system if not already done
         if st.session_state.crew is None:
             st.session_state.crew = create_agents_and_tasks(st.session_state.pdf_tool)
 
-        # Process query through the multi-agent Crew
         with st.chat_message("assistant"):
             response_box = st.empty()
             full_response = ""
             with st.spinner("Thinking..."):
                 result = st.session_state.crew.kickoff(inputs={"query": user_voice_text}).raw
-            # Progressive rendering of the answer
+ 
             for i, line in enumerate(result.split("\n")):
                 full_response += line + ("\n" if i < len(result.split("\n")) - 1 else "")
                 response_box.markdown(full_response + "▌")
@@ -335,7 +323,6 @@ if len(audio) > 0:
             response_box.markdown(full_response)
         st.session_state.messages.append({"role": "assistant", "content": result})
 
-        # Use ElevenLabs to generate speech and auto-play it via injected HTML
         audio_response = elevenlabs_speak(result)
         if audio_response:
             play_audio_auto(audio_response.getvalue())
@@ -363,8 +350,6 @@ if prompt:
             time.sleep(0.15)
         response_box.markdown(full_response)
     st.session_state.messages.append({"role": "assistant", "content": result})
-
-    # Auto-play ElevenLabs generated audio for text input response
     audio_response = elevenlabs_speak(result)
     if audio_response:
         play_audio_auto(audio_response.getvalue())
