@@ -1,0 +1,10 @@
+crewai
+streamlit-audiorecorder
+openai
+pyttsx3
+pydub
+streamlit
+python-dotenv
+pinecone
+markitdown
+pydantic
