@@ -30,7 +30,6 @@ from matplotlib import cm
 import pandas as pd
 import numpy as np
 
-# ───── New imports for real‑time call ─────
 import av
 import threading
 from streamlit_webrtc import webrtc_streamer, WebRtcMode, RTCConfiguration
@@ -48,7 +47,6 @@ pinecone_cloud = os.getenv("PINECONE_CLOUD", "aws")
 elevenlabs_api_key = os.getenv("ELEVEN_LABS_API_KEY")
 elevenlabs_voice_id = os.getenv("ELEVEN_LABS_VOICE_ID")
 
-# ───── Instantiate ElevenLabs client ─────
 eleven = ElevenLabs(api_key=elevenlabs_api_key)
 
 # ---------------------------
@@ -111,7 +109,6 @@ def play_audio_auto(audio_bytes: bytes):
     """
     st.markdown(audio_html, unsafe_allow_html=True)
 
-# ───── Real‑time call processor ─────
 class CallProcessor:
     def __init__(self):
         self.pcm_buffer = bytearray()
@@ -400,7 +397,6 @@ for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
         st.markdown(msg["content"])
 
-# ───── New Real‑time Call Section ─────
 st.subheader("🔴 Live Call (ASR ⇄ LLM ⇄ TTS)")
 
 webrtc_ctx = webrtc_streamer(
