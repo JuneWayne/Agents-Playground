@@ -144,7 +144,6 @@ class CallProcessor:
                 self.pcm_buffer.clear()
             print(f"[worker] grabbed {length} bytes → transcribing…")
 
-            # Build WAV and call Whisper
             wav_io = BytesIO()
             wf = wave.open(wav_io, 'wb')
             wf.setnchannels(1)
@@ -167,7 +166,6 @@ class CallProcessor:
                 print("[worker] no speech detected, skipping")
                 continue
 
-            # ChatCompletion
             try:
                 chat_stream = openai.ChatCompletion.create(
                     model="gpt-4o",
@@ -178,7 +176,6 @@ class CallProcessor:
                 print("[worker] ChatCompletion error:", e)
                 continue
 
-            # For each token, stream TTS
             for chunk in chat_stream:
                 token = chunk.choices[0].delta.get("content")
                 if not token:
@@ -410,8 +407,27 @@ webrtc_ctx = webrtc_streamer(
 )
 
 if webrtc_ctx.state.playing:
-    st.info("Call is active – speak into your mic and hear the TTS in real time.")
+    if not st.session_state.get("greeting_sent", False):
+        greeting = "Hi! How can I be of service today?"
+
+        mp3_buf = elevenlabs_speak(greeting)
+        if mp3_buf:
+            mp3_data = mp3_buf.getvalue()
+
+            seg = AudioSegment.from_file(BytesIO(mp3_data), format="mp3")
+            pcm = (
+                seg.set_frame_rate(16000)
+                   .set_channels(1)
+                   .set_sample_width(2)
+                   .raw_data
+            )
+            webrtc_ctx.audio_processor.tts_queue.append(pcm)
+
+        st.session_state.greeting_sent = True
+
+    st.info("Call is active – speak into your mic and hear the LLM’s voice in real time.")
 else:
+    st.session_state.greeting_sent = False
     st.warning("Call not started yet. Click ‘Start’ on the WebRTC widget above.")
 
 # ---------------------------

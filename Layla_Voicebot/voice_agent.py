@@ -280,6 +280,12 @@ with st.sidebar:
 
     st.button("Reset Chat", on_click=reset_chat)
 
+    with st.sidebar:
+        st.header("Settings")
+        voice_output = st.checkbox("Enable voice output", value=True,
+                                help="Play audio responses via ElevenLabs")
+
+
 # ---------------------------
 # Main Interface: Chat Display
 # ---------------------------
@@ -434,9 +440,11 @@ if len(audio) > 0:
         else:
             st.success("The response quality is good. You can proceed with the information provided.")
 
-        audio_response = elevenlabs_speak(answer)
-        if audio_response:
-            play_audio_auto(audio_response.getvalue())
+        if voice_output:
+            audio_response = elevenlabs_speak(answer)
+            if audio_response:
+                play_audio_auto(audio_response.getvalue())
+
 
 # ---------------------------
 # Text Input Section
@@ -564,3 +572,9 @@ if prompt:
         st.info("The response quality is moderate. Consider refining your question for better results.")
     else:
         st.success("The response quality is good. You can proceed with the information provided.")
+
+    if voice_output:
+        audio_response = elevenlabs_speak(answer)
+        if audio_response:
+            play_audio_auto(audio_response.getvalue())
+        
