@@ -119,6 +119,12 @@ class DocumentSearchTool(BaseTool):
         if self.index_name in pc.list_indexes().names():
             pc.delete_index(self.index_name)
             time.sleep(2)
+            pc.create_index(
+            name=self.index_name,
+            dimension=self.dimension,
+            metric="cosine",
+            spec=serverless_spec
+        )
         elif self.index_name not in pc.list_indexes().names():
             pc.create_index(
                 name=self.index_name,
@@ -263,7 +269,7 @@ def display_pdf(file_bytes: bytes, file_name: str):
     """, unsafe_allow_html=True)
 
 # ---------------------------
-# Sidebar: PDF Upload & Indexing
+# PDF Upload & Indexing
 # ---------------------------
 with st.sidebar:
     st.header("Upload a PDF")
